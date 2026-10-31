@@ -1,0 +1,161 @@
+# TASK 12: Seasonal Milk Payment Calculator
+
+from decimal import Decimal, ROUND_HALF_UP
+
+# Reference values
+REFERENCE_FAT = Decimal("3.5")
+REFERENCE_SNF = Decimal("8.5")
+
+# Original rate card
+OLD_BASE_RATE = Decimal("30.00")
+OLD_FAT_STEP = Decimal("0.40")
+
+# April-June rate card
+NEW_BASE_RATE = Decimal("32.00")
+NEW_FAT_STEP = Decimal("0.45")
+
+# SNF rate remains unchanged
+SNF_STEP_VALUE = Decimal("0.30")
+
+# Bonus details
+BONUS_PER_LITRE = Decimal("0.50")
+BONUS_LIMIT = Decimal("500")
+
+
+# Function to round money
+def round_money(value):
+
+    return Decimal(value).quantize(
+        Decimal("0.01"),
+        rounding=ROUND_HALF_UP
+    )
+
+
+# Function to calculate milk rate
+def rate_per_litre(fat, snf, season):
+
+    # Select rate card
+    if season == "april_june":
+
+        base_rate = NEW_BASE_RATE
+
+        fat_step_value = NEW_FAT_STEP
+
+    else:
+
+        base_rate = OLD_BASE_RATE
+
+        fat_step_value = OLD_FAT_STEP
+
+    # Calculate fat steps
+    fat_steps = (
+        (fat - REFERENCE_FAT) / Decimal("0.1")
+    ).quantize(Decimal("1"), rounding=ROUND_HALF_UP)
+
+    # Calculate SNF steps
+    snf_steps = (
+        (snf - REFERENCE_SNF) / Decimal("0.1")
+    ).quantize(Decimal("1"), rounding=ROUND_HALF_UP)
+
+    # Calculate rate
+    rate = (
+        base_rate
+        + fat_steps * fat_step_value
+        + snf_steps * SNF_STEP_VALUE
+    )
+
+    return round_money(rate)
+
+
+# Function to calculate payment
+def payout(litres, fat, snf, season):
+
+    rate = rate_per_litre(fat, snf, season)
+
+    payment = litres * rate
+
+    return round_money(payment)
+
+
+# Function to calculate ten-day bonus
+def volume_bonus(total_litres):
+
+    if total_litres > BONUS_LIMIT:
+
+        bonus = total_litres * BONUS_PER_LITRE
+
+        return round_money(bonus)
+
+    else:
+
+        return Decimal("0.00")
+
+
+# Main program
+def main():
+
+    farmer_id = input("Enter Farmer ID: ")
+
+    try:
+
+        litres = Decimal(input("Enter ten-day milk quantity: "))
+
+        fat = Decimal(input("Enter fat percentage: "))
+
+        snf = Decimal(input("Enter SNF percentage: "))
+
+    except Exception:
+
+        print("Please enter valid numeric values")
+
+        return
+
+    season = input(
+        "Enter season (regular/april_june): "
+    ).lower()
+
+    # Calculate rate
+    rate = rate_per_litre(
+        fat,
+        snf,
+        season
+    )
+
+    # Calculate milk payment
+    payment = payout(
+        litres,
+        fat,
+        snf,
+        season
+    )
+
+    # Calculate bonus
+    bonus = volume_bonus(litres)
+
+    # Calculate total payment
+    total = payment + bonus
+
+    # Display receipt
+    print("\n----- PAYMENT RECEIPT -----")
+
+    print("Farmer ID:", farmer_id)
+
+    print("Season:", season)
+
+    print("Milk Quantity:", litres)
+
+    print("Fat Percentage:", fat)
+
+    print("SNF Percentage:", snf)
+
+    print("Rate per litre: Rs", rate)
+
+    print("Milk Payment: Rs", payment)
+
+    print("Volume Bonus: Rs", bonus)
+
+    print("Total Payment: Rs", total)
+
+
+if __name__ == "__main__":
+    main()

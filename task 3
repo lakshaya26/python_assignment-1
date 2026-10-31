@@ -1,0 +1,45 @@
+# TASK 3: Variables and Constants
+
+# Named constants
+BASE_RATE = 30.00
+REFERENCE_FAT = 3.5
+REFERENCE_SNF = 8.5
+
+FAT_STEP_VALUE = 0.40
+SNF_STEP_VALUE = 0.30
+
+MIN_FAT = 2.0
+MAX_FAT = 7.0
+
+MIN_SNF = 0.0
+MAX_SNF = 12.0
+
+# Variables
+farmer_id = "F101"
+litres = 10.5
+fat = 3.8
+snf = 8.7
+shift = "morning"
+
+print("Farmer ID:", farmer_id)
+print("Litres:", litres)
+print("Fat:", fat)
+print("SNF:", snf)
+print("Shift:", shift)
+
+# Dynamic typing
+number = 10
+print(number, type(number))
+
+number = "Ten"
+print(number, type(number))
+
+# Multiple assignment
+a = 10
+b = 20
+
+a, b = b, a
+
+print("After swapping")
+print("a =", a)
+print("b =", b)

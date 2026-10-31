@@ -1,0 +1,41 @@
+# TASK 4: Expressions
+
+from decimal import Decimal, ROUND_HALF_UP
+
+BASE_RATE = Decimal("30.00")
+REFERENCE_FAT = Decimal("3.5")
+REFERENCE_SNF = Decimal("8.5")
+
+FAT_STEP_VALUE = Decimal("0.40")
+SNF_STEP_VALUE = Decimal("0.30")
+
+
+def rate_per_litre(fat, snf):
+
+    fat_steps = (
+        (Decimal(str(fat)) - REFERENCE_FAT) / Decimal("0.1")
+    ).quantize(Decimal("1"), rounding=ROUND_HALF_UP)
+
+    snf_steps = (
+        (Decimal(str(snf)) - REFERENCE_SNF) / Decimal("0.1")
+    ).quantize(Decimal("1"), rounding=ROUND_HALF_UP)
+
+    rate = (
+        BASE_RATE
+        + fat_steps * FAT_STEP_VALUE
+        + snf_steps * SNF_STEP_VALUE
+    )
+
+    return rate.quantize(
+        Decimal("0.01"),
+        rounding=ROUND_HALF_UP
+    )
+
+
+print("Rate:", rate_per_litre(4.2, 8.7))
+
+print("(4.2 - 3.5) / 0.1 =", (4.2 - 3.5) / 0.1)
+
+print("round(-1.5) =", round(-1.5))
+
+print("int(-1.5) =", int(-1.5))

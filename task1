@@ -1,0 +1,26 @@
+# TASK 1: Problem Analysis
+
+# Input values
+farmer_id = "F101"
+litres = 10.5
+fat = 3.8
+snf = 8.7
+shift = "morning"
+
+# Constant values
+BASE_RATE = 30.00
+REFERENCE_FAT = 3.5
+REFERENCE_SNF = 8.5
+FAT_STEP_VALUE = 0.40
+SNF_STEP_VALUE = 0.30
+
+# Display the input values
+print("Farmer ID:", farmer_id)
+print("Milk Quantity:", litres)
+print("Fat Percentage:", fat)
+print("SNF Percentage:", snf)
+print("Shift:", shift)
+
+print("Base Rate:", BASE_RATE)
+print("Fat Step Value:", FAT_STEP_VALUE)
+print("SNF Step Value:", SNF_STEP_VALUE)

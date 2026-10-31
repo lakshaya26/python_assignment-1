@@ -1,0 +1,35 @@
+# TASK 5: Input and Type Conversion
+
+def read_float(message):
+
+    while True:
+
+        try:
+            value = float(input(message))
+            return value
+
+        except ValueError:
+            print("Invalid input. Please enter a number.")
+
+
+farmer_id = input("Enter Farmer ID: ")
+
+litres = read_float("Enter milk quantity: ")
+
+fat = read_float("Enter fat percentage: ")
+
+snf = read_float("Enter SNF percentage: ")
+
+shift = input("Enter shift (morning/evening): ")
+
+print("\nFarmer Details")
+
+print(f"Farmer ID: {farmer_id}")
+
+print(f"Milk Quantity: {litres:8.2f}")
+
+print(f"Fat Percentage: {fat:8.2f}")
+
+print(f"SNF Percentage: {snf:8.2f}")
+
+print(f"Shift: {shift}")

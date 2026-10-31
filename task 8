@@ -1,0 +1,85 @@
+# TASK 8: Plan the Algorithm Before Coding
+
+from decimal import Decimal, ROUND_HALF_UP
+
+# Constants
+BASE_RATE = Decimal("30.00")
+REFERENCE_FAT = Decimal("3.5")
+REFERENCE_SNF = Decimal("8.5")
+
+FAT_STEP_VALUE = Decimal("0.40")
+SNF_STEP_VALUE = Decimal("0.30")
+
+
+# Function to calculate rate per litre
+def rate_per_litre(fat, snf):
+
+    fat_steps = (
+        (Decimal(str(fat)) - REFERENCE_FAT) / Decimal("0.1")
+    ).quantize(Decimal("1"), rounding=ROUND_HALF_UP)
+
+    snf_steps = (
+        (Decimal(str(snf)) - REFERENCE_SNF) / Decimal("0.1")
+    ).quantize(Decimal("1"), rounding=ROUND_HALF_UP)
+
+    rate = (
+        BASE_RATE
+        + fat_steps * FAT_STEP_VALUE
+        + snf_steps * SNF_STEP_VALUE
+    )
+
+    return rate.quantize(
+        Decimal("0.01"),
+        rounding=ROUND_HALF_UP
+    )
+
+
+# Function to calculate payment
+def payout(litres, fat, snf):
+
+    rate = rate_per_litre(fat, snf)
+
+    payment = Decimal(str(litres)) * rate
+
+    return payment.quantize(
+        Decimal("0.01"),
+        rounding=ROUND_HALF_UP
+    )
+
+
+# Farmer entries
+entries = [
+    ("F101", 10, 3.5, 8.5, "morning"),
+    ("F102", 8.5, 4.2, 8.7, "evening"),
+    ("F103", 12, 3.1, 8.3, "morning")
+]
+
+# List to store payments
+payments = []
+
+# Process each farmer
+for farmer_id, litres, fat, snf, shift in entries:
+
+    payment = payout(litres, fat, snf)
+
+    payments.append(payment)
+
+    print("Farmer:", farmer_id)
+
+    print("Shift:", shift)
+
+    print("Milk Quantity:", litres)
+
+    print("Fat:", fat)
+
+    print("SNF:", snf)
+
+    print("Payment: Rs", payment)
+
+    print("------------------------")
+
+
+# Calculate ten-day total
+total = sum(payments)
+
+print("Ten-day Total: Rs", total)

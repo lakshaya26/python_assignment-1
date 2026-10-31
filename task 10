@@ -1,0 +1,50 @@
+# TASK 10: Compare Float and Decimal
+
+from decimal import Decimal
+from time import perf_counter
+
+# Different number of payments
+sizes = [300, 6000, 150000]
+
+# Payment amount
+payment = Decimal("33.40")
+
+for n in sizes:
+
+    payments = [payment] * n
+
+    # Float calculation
+    start = perf_counter()
+
+    float_total = 0.0
+
+    for amount in payments:
+        float_total += float(amount)
+
+    float_time = perf_counter() - start
+
+    # Decimal calculation
+    start = perf_counter()
+
+    decimal_total = Decimal("0.00")
+
+    for amount in payments:
+        decimal_total += amount
+
+    decimal_time = perf_counter() - start
+
+    # Display results
+    print("\nNumber of payments:", n)
+
+    print("Float total:", float_total)
+
+    print("Decimal total:", decimal_total)
+
+    print("Float time:", float_time)
+
+    print("Decimal time:", decimal_time)
+
+    print(
+        "Difference:",
+        Decimal(str(float_total)) - decimal_total
+    )
